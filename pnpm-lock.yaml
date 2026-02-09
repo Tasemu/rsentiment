@@ -80,12 +80,18 @@ importers:
       '@rsentiment/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
+      '@rsentiment/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@rsentiment/observability':
         specifier: workspace:*
         version: link:../../packages/observability
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
+      drizzle-orm:
+        specifier: ^0.44.5
+        version: 0.44.7(@opentelemetry/api@1.9.0)(@types/pg@8.16.0)(pg@8.18.0)
       undici:
         specifier: ^7.13.0
         version: 7.21.0

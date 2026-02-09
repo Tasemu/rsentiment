@@ -9,13 +9,13 @@ const baseEnvSchema = z
     GCP_PROJECT_ID: z.string().min(1),
     GCP_REGION: z.string().default("europe-west2")
   })
-  .strict();
+  .passthrough();
 
 const dbEnvSchema = z
   .object({
     DATABASE_URL: z.string().url()
   })
-  .strict();
+  .passthrough();
 
 export const ingesterEnvSchema = baseEnvSchema
   .merge(dbEnvSchema)
@@ -26,7 +26,7 @@ export const ingesterEnvSchema = baseEnvSchema
     REDDIT_USER_AGENT: z.string().min(1),
     INGESTER_BACKFILL_DAYS: z.coerce.number().int().positive().default(3)
   })
-  .strict();
+  .passthrough();
 
 export const processorEnvSchema = baseEnvSchema
   .merge(dbEnvSchema)
@@ -35,14 +35,14 @@ export const processorEnvSchema = baseEnvSchema
     PUBSUB_DLQ_TOPIC: z.string().min(1).default("raw-posts-dlq"),
     VERTEX_MODEL: z.string().min(1).default("gemini-1.5-flash")
   })
-  .strict();
+  .passthrough();
 
 export const internalApiEnvSchema = baseEnvSchema
   .merge(dbEnvSchema)
   .extend({
     PORT: z.coerce.number().int().min(1).max(65535).default(8080)
   })
-  .strict();
+  .passthrough();
 
 type EnvSource = Record<string, string | undefined>;
 

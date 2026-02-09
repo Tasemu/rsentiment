@@ -17,8 +17,10 @@
     "@google-cloud/pubsub": "^5.2.0",
     "@rsentiment/config": "workspace:*",
     "@rsentiment/contracts": "workspace:*",
+    "@rsentiment/db": "workspace:*",
     "@rsentiment/observability": "workspace:*",
     "bottleneck": "^2.19.5",
+    "drizzle-orm": "^0.44.5",
     "undici": "^7.13.0",
     "zod": "^3.24.2"
   }

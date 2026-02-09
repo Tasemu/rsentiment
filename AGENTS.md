@@ -20,6 +20,15 @@ Workspace packages:
 - `packages/observability`
 - `packages/db`
 
+Current implementation status:
+- Milestone 1 complete (Drizzle schema/migrations/seed)
+- Milestone 2 complete (contracts + env validation hardening)
+- Milestone 3 (ingester MVP) is next
+
+Continuation docs:
+- `HANDOFF.md` has session-independent implementation context
+- `TASKS.md` has the live backlog/progress checklist
+
 ## Build, Lint, Typecheck, Test
 Run commands from repo root.
 
@@ -107,6 +116,8 @@ No ESLint/Prettier configs are committed yet; follow existing file style and avo
 - Validate boundary inputs with `zod` (env, API input, Pub/Sub payloads, external API responses).
 - Prefer `z.infer<typeof schema>` to keep runtime and static types aligned.
 - Keep shared domain types in `packages/contracts`.
+- For env validation, parse with service-specific config helpers (`getIngesterEnv`, `getProcessorEnv`, `getInternalApiEnv`).
+- Env schemas intentionally allow extra shell/npm vars; validate required keys only.
 
 ### Naming
 - Functions and variables: `camelCase`

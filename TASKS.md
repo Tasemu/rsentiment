@@ -20,6 +20,7 @@ Tracking document for implementation progress against `ARCHITECTURE.md`.
 - [x] Environments: local/dev and prod
 - [x] API shape: REST only
 - [x] Interim strategy taxonomy: `OPTIONS | UNKNOWN`
+- [x] No `processing_failures` table in v1 (log + DLQ approach)
 
 ## Completed
 
@@ -69,7 +70,15 @@ Tracking document for implementation progress against `ARCHITECTURE.md`.
 
 ## In Progress
 
-- [~] Build Reddit ingester MVP (OAuth, rate limiting, DB-driven subreddits, Pub/Sub publish)
+- [~] Validate Reddit ingester MVP end-to-end locally with one subreddit and real credentials
+
+## Next Session Start Here
+
+1. Run `pnpm dev:ingester` with valid Reddit and GCP credentials
+2. Verify one enabled subreddit publishes both post/comment messages
+3. Confirm `subreddits.last_crawled_at` advances only after successful publish
+4. Add targeted tests for normalization and crawl lower-bound behavior
+5. Capture any fixes from local smoke run
 
 ## Next Up (Priority Order)
 
@@ -83,12 +92,12 @@ Tracking document for implementation progress against `ARCHITECTURE.md`.
 
 ### Milestone 3: Reddit Ingester MVP
 
-- [ ] Implement Reddit OAuth client and token refresh
-- [ ] Implement rate limit handling
-- [ ] Read enabled subreddits from DB
-- [ ] Implement initial 3-day backfill
-- [ ] Implement forward-only incremental ingestion
-- [ ] Publish validated raw post/comment messages to Pub/Sub
+- [x] Implement Reddit OAuth client and token refresh
+- [x] Implement rate limit handling
+- [x] Read enabled subreddits from DB
+- [x] Implement initial 3-day backfill
+- [x] Implement forward-only incremental ingestion
+- [x] Publish validated raw post/comment messages to Pub/Sub
 
 ### Milestone 4: Processor MVP
 
