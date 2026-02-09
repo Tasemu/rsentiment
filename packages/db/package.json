@@ -1,0 +1,20 @@
+{
+  "name": "@rsentiment/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "node -e \"console.log('lint not configured for @rsentiment/db')\"",
+    "test": "node -e \"console.log('no tests yet for @rsentiment/db')\"",
+    "db:migrate": "node -e \"console.log('migrations not wired yet')\"",
+    "db:rollback": "node -e \"console.log('rollback not wired yet')\"",
+    "db:seed": "tsx seed/subreddits.ts"
+  },
+  "dependencies": {
+    "pg": "^8.13.3"
+  }
+}

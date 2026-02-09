@@ -1,0 +1,25 @@
+{
+  "name": "rsentiment",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "typecheck": "pnpm -r run typecheck",
+    "lint": "pnpm -r run lint",
+    "test": "pnpm -r run test",
+    "db:migrate": "pnpm --filter @rsentiment/db run db:migrate",
+    "db:rollback": "pnpm --filter @rsentiment/db run db:rollback",
+    "db:seed": "pnpm --filter @rsentiment/db run db:seed",
+    "dev:ingester": "pnpm --filter @rsentiment/reddit-ingester run dev",
+    "dev:processor": "pnpm --filter @rsentiment/processor run dev",
+    "dev:api": "pnpm --filter @rsentiment/internal-api run dev"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "@types/pg": "^8.15.5",
+    "typescript": "^5.8.3",
+    "tsx": "^4.19.0",
+    "vitest": "^2.1.8"
+  }
+}

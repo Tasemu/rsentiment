@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "declaration": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "paths": {
+      "@rsentiment/config": ["packages/config/src/index.ts"],
+      "@rsentiment/contracts": ["packages/contracts/src/index.ts"],
+      "@rsentiment/db": ["packages/db/src/index.ts"],
+      "@rsentiment/observability": ["packages/observability/src/index.ts"],
+      "@rsentiment/reddit-ingester": ["apps/reddit-ingester/src/index.ts"],
+      "@rsentiment/processor": ["apps/processor/src/index.ts"],
+      "@rsentiment/internal-api": ["apps/internal-api/src/index.ts"]
+    }
+  }
+}

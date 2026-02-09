@@ -1,0 +1,23 @@
+{
+  "name": "@rsentiment/internal-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "node -e \"console.log('lint not configured for @rsentiment/internal-api')\"",
+    "test": "node -e \"console.log('no tests yet for @rsentiment/internal-api')\""
+  },
+  "dependencies": {
+    "@rsentiment/config": "workspace:*",
+    "@rsentiment/contracts": "workspace:*",
+    "@rsentiment/db": "workspace:*",
+    "@rsentiment/observability": "workspace:*",
+    "fastify": "^5.2.0"
+  }
+}

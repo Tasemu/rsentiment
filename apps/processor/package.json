@@ -1,0 +1,26 @@
+{
+  "name": "@rsentiment/processor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "node -e \"console.log('lint not configured for @rsentiment/processor')\"",
+    "test": "node -e \"console.log('no tests yet for @rsentiment/processor')\""
+  },
+  "dependencies": {
+    "@google-cloud/pubsub": "^5.2.0",
+    "@google-cloud/vertexai": "^1.8.0",
+    "@rsentiment/config": "workspace:*",
+    "@rsentiment/contracts": "workspace:*",
+    "@rsentiment/db": "workspace:*",
+    "@rsentiment/observability": "workspace:*",
+    "date-fns": "^4.1.0",
+    "zod": "^3.24.2"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@rsentiment/reddit-ingester",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "node -e \"console.log('lint not configured for @rsentiment/reddit-ingester')\"",
+    "test": "node -e \"console.log('no tests yet for @rsentiment/reddit-ingester')\""
+  },
+  "dependencies": {
+    "@google-cloud/pubsub": "^5.2.0",
+    "@rsentiment/config": "workspace:*",
+    "@rsentiment/contracts": "workspace:*",
+    "@rsentiment/observability": "workspace:*",
+    "bottleneck": "^2.19.5",
+    "undici": "^7.13.0",
+    "zod": "^3.24.2"
+  }
+}
