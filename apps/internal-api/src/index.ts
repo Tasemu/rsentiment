@@ -1,10 +1,20 @@
 import Fastify from "fastify";
+import { getInternalApiEnv } from "@rsentiment/config";
+import { healthResponseSchema } from "@rsentiment/contracts";
 
 const app = Fastify({ logger: false });
 
-app.get("/health", async () => ({ ok: true }));
+const env = getInternalApiEnv();
 
-const port = Number(process.env.PORT ?? 8080);
+app.get("/health", async () => {
+  return healthResponseSchema.parse({
+    ok: true,
+    service: "internal-api",
+    timestamp: new Date().toISOString()
+  });
+});
+
+const port = env.PORT;
 
 app
   .listen({ port, host: "0.0.0.0" })

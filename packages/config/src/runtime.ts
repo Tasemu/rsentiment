@@ -1,5 +1,5 @@
-import { getEnv } from "./env.js";
+import { getBaseEnv } from "./env.js";
 
 export function isProduction(): boolean {
-  return getEnv().NODE_ENV === "production";
+  return getBaseEnv().NODE_ENV === "production";
 }
