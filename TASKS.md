@@ -70,15 +70,21 @@ Tracking document for implementation progress against `ARCHITECTURE.md`.
 
 ## In Progress
 
-- [~] Validate Reddit ingester MVP end-to-end locally (mock source first, then Reddit source when credentials are approved)
+- [~] Complete Milestone 3 sign-off (Reddit-source smoke + targeted ingester tests)
+
+## Recently Validated
+
+- [x] Mock-source smoke run in `apps/reddit-ingester` succeeded (`INGESTER_SOURCE=mock`)
+- [x] Verified publish flow for both posts/comments (wallstreetbets: 36 posts, 320 comments)
+- [x] Verified `subreddits.last_crawled_at` advances after successful publish
 
 ## Next Session Start Here
 
-1. Run `INGESTER_SOURCE=mock pnpm dev:ingester` with local Pub/Sub emulator
-2. Verify one enabled subreddit publishes both post/comment messages in mock mode
-3. Confirm `subreddits.last_crawled_at` advances only after successful publish
-4. Add targeted tests for normalization and crawl lower-bound behavior
-5. Switch to `INGESTER_SOURCE=reddit` once Reddit credentials are approved and re-run smoke test
+1. Add targeted tests for normalization and crawl lower-bound behavior
+2. Re-run `INGESTER_SOURCE=mock pnpm dev:ingester` after tests/changes
+3. Run `INGESTER_SOURCE=reddit pnpm dev:ingester` once Reddit credentials are approved
+4. Verify one enabled subreddit publishes both post/comment messages in Reddit mode
+5. Capture any fixes from Reddit-source smoke run
 
 ## Next Up (Priority Order)
 
@@ -98,6 +104,7 @@ Tracking document for implementation progress against `ARCHITECTURE.md`.
 - [x] Implement initial 3-day backfill
 - [x] Implement forward-only incremental ingestion
 - [x] Publish validated raw post/comment messages to Pub/Sub
+- [x] Add `INGESTER_SOURCE=mock` local fallback for development without Reddit credentials
 
 ### Milestone 4: Processor MVP
 

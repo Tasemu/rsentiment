@@ -8,7 +8,9 @@ This repository is currently in active development and is used for local testing
 
 - Milestone 1 complete: Drizzle schema + migrations + idempotent seed
 - Milestone 2 complete: contracts + env validation hardening
-- Milestone 3 implemented in code: Reddit ingester MVP (pending end-to-end smoke validation)
+- Milestone 3 implemented in code: Reddit ingester MVP
+- Milestone 3 local smoke validated with `INGESTER_SOURCE=mock`
+- Remaining Milestone 3 sign-off: live Reddit-source smoke after API credentials are approved
 
 For continuation context, see `HANDOFF.md` and `TASKS.md`.
 
@@ -53,13 +55,31 @@ pnpm install
 docker compose up -d
 pnpm db:migrate
 pnpm db:seed
-pnpm dev:ingester
+INGESTER_SOURCE=mock pnpm dev:ingester
 ```
 
 Run ingester in local mock-source mode (no Reddit credentials required):
 
 ```bash
 INGESTER_SOURCE=mock pnpm dev:ingester
+```
+
+For local-only message flow, run Pub/Sub emulator and create topic:
+
+```bash
+gcloud beta emulators pubsub start --host-port=127.0.0.1:8085 --project=rsentiment-local
+curl -X PUT "http://127.0.0.1:8085/v1/projects/rsentiment-local/topics/raw-posts"
+PUBSUB_EMULATOR_HOST=127.0.0.1:8085 GCP_PROJECT_ID=rsentiment-local INGESTER_SOURCE=mock pnpm dev:ingester
+```
+
+Run ingester against Reddit API (requires approved Reddit app credentials):
+
+```bash
+INGESTER_SOURCE=reddit \
+REDDIT_CLIENT_ID=your-client-id \
+REDDIT_CLIENT_SECRET=your-client-secret \
+REDDIT_USER_AGENT="macos:rsentiment-local:0.1 (by u/your_username)" \
+pnpm dev:ingester
 ```
 
 ## Database (Drizzle)

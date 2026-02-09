@@ -13,7 +13,8 @@ Use these docs together:
 - Milestone 1 complete: Drizzle database foundation
 - Milestone 2 complete: contracts and config hardening
 - Milestone 3 implemented in code: Reddit ingester MVP
-- Immediate next step: run end-to-end local smoke with real Reddit/GCP credentials
+- Milestone 3 smoke validated locally in mock-source mode (`INGESTER_SOURCE=mock`)
+- Immediate next step: run end-to-end smoke with `INGESTER_SOURCE=reddit` once Reddit API credentials are approved
 
 ## Locked Product/Platform Decisions
 
@@ -85,6 +86,9 @@ API query/response schemas:
 - Drizzle rollback is intentionally unsupported. Use corrective forward migrations.
 - Drizzle Studio default port is `4983`; if busy, pass `--port`.
 - Env schemas use `.passthrough()` to allow shell/PNPM extra variables while validating required keys.
+- Ingester supports `INGESTER_SOURCE=mock` for local development without Reddit credentials.
+- `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, and `REDDIT_USER_AGENT` are required only when `INGESTER_SOURCE=reddit`.
+- `mock` mode is a local/dev fallback only; v1 production ingestion remains official Reddit API.
 
 ## Milestone 3 Implementation (Reddit Ingester)
 
@@ -113,9 +117,11 @@ Implemented in `apps/reddit-ingester`:
 
 Remaining Milestone 3 validation:
 
-- Run one enabled subreddit end-to-end locally
-- Confirm both posts and comments are published
-- Confirm watermarks advance only on successful publish
+- [x] Run one enabled subreddit end-to-end locally in mock mode
+- [x] Confirm both posts and comments are published (mock smoke: 36 posts + 320 comments)
+- [x] Confirm watermarks advance only on successful publish (verified `subreddits.last_crawled_at` update)
+- [ ] Run one enabled subreddit end-to-end with `INGESTER_SOURCE=reddit` once credentials are approved
+- [ ] Add targeted tests for lower-bound/watermark and normalization behavior
 
 ## Milestone 4 Preview (Processor)
 

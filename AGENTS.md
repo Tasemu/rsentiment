@@ -23,7 +23,8 @@ Workspace packages:
 Current implementation status:
 - Milestone 1 complete (Drizzle schema/migrations/seed)
 - Milestone 2 complete (contracts + env validation hardening)
-- Milestone 3 (ingester MVP) is next
+- Milestone 3 ingester MVP is implemented in code
+- Remaining Milestone 3 work: Reddit-source smoke validation + targeted ingester tests
 
 Continuation docs:
 - `HANDOFF.md` has session-independent implementation context
@@ -91,6 +92,11 @@ Suggested bootstrap order:
 3. `pnpm db:migrate`
 4. `pnpm db:seed`
 5. start one service with `pnpm dev:*`
+
+Ingester source modes:
+- `INGESTER_SOURCE=reddit` (default): requires `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_USER_AGENT`
+- `INGESTER_SOURCE=mock`: local mock feed for development without Reddit credentials
+- `mock` mode is a local/dev aid only and does not change the v1 product decision to use official Reddit API in production
 
 ## Code Style Rules
 No ESLint/Prettier configs are committed yet; follow existing file style and avoid style-only churn.
