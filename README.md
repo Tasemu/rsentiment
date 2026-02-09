@@ -22,4 +22,10 @@ pnpm db:seed
 pnpm dev:ingester
 ```
 
+## Database (Drizzle)
+
+- Generate migration SQL from schema: `pnpm --filter @rsentiment/db run db:generate`
+- Apply migrations: `pnpm db:migrate`
+- Seed subreddits: `pnpm db:seed`
+
 See `ARCHITECTURE.md` for system architecture and locked decisions.

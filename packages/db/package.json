@@ -10,11 +10,18 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "node -e \"console.log('lint not configured for @rsentiment/db')\"",
     "test": "node -e \"console.log('no tests yet for @rsentiment/db')\"",
-    "db:migrate": "node -e \"console.log('migrations not wired yet')\"",
-    "db:rollback": "node -e \"console.log('rollback not wired yet')\"",
+    "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
+    "db:rollback": "node -e \"console.error('Drizzle does not provide automatic down migrations. Add a corrective migration instead.'); process.exit(1);\"",
+    "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
     "db:seed": "tsx seed/subreddits.ts"
   },
   "dependencies": {
+    "dotenv": "^16.6.1",
+    "drizzle-orm": "^0.44.5",
     "pg": "^8.13.3"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.7"
   }
 }

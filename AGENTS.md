@@ -43,9 +43,11 @@ Dev entrypoints:
 - `pnpm dev:api`
 
 DB scripts:
-- `pnpm db:migrate` (currently placeholder)
-- `pnpm db:rollback` (currently placeholder)
+- `pnpm db:migrate` (Drizzle migration apply)
+- `pnpm db:rollback` (intentionally unsupported; create corrective migration)
 - `pnpm db:seed`
+- `pnpm --filter @rsentiment/db run db:generate` (generate SQL from Drizzle schema)
+- `pnpm --filter @rsentiment/db run db:studio` (optional local schema explorer)
 
 Package-scoped examples:
 - `pnpm --filter @rsentiment/processor build`
