@@ -1,12 +1,13 @@
 import type { RawItem } from "@rsentiment/contracts";
-import { getIngesterEnv } from "@rsentiment/config";
+import { getIngesterEnv, type IngesterEnv } from "@rsentiment/config";
 import { logger } from "@rsentiment/observability";
 import { crawlCommentsSince } from "./crawl/comments.js";
 import { crawlPostsSince } from "./crawl/posts.js";
 import { getEnabledSubreddits, type EnabledSubreddit, updateLastCrawledAt } from "./crawl/subreddits.js";
+import { MockRedditClient } from "./mock-reddit-client.js";
 import { normalizeRawComment, normalizeRawPost } from "./normalize/raw-items.js";
 import { createRawItemPublisher } from "./publish/raw-items.js";
-import { RedditClient } from "./reddit-client.js";
+import { RedditClient, type RedditApiClient, type RedditCredentials } from "./reddit-client.js";
 
 const POLL_INTERVAL_MS = 60_000;
 const WATERMARK_OVERLAP_MS = 60_000;
@@ -26,10 +27,30 @@ function getLowerBound(lastCrawledAt: Date | null, backfillDays: number, now: Da
   return new Date(Math.max(overlapped, 0));
 }
 
+function getRedditCredentials(env: IngesterEnv): RedditCredentials {
+  if (!env.REDDIT_CLIENT_ID || !env.REDDIT_CLIENT_SECRET || !env.REDDIT_USER_AGENT) {
+    throw new Error("Missing Reddit credentials for reddit ingestion source");
+  }
+
+  return {
+    clientId: env.REDDIT_CLIENT_ID,
+    clientSecret: env.REDDIT_CLIENT_SECRET,
+    userAgent: env.REDDIT_USER_AGENT
+  };
+}
+
+function createIngestionClient(env: IngesterEnv): RedditApiClient {
+  if (env.INGESTER_SOURCE === "mock") {
+    return new MockRedditClient();
+  }
+
+  return new RedditClient(getRedditCredentials(env));
+}
+
 async function crawlAndPublishSubreddit(
   subreddit: EnabledSubreddit,
   cycleStartedAt: Date,
-  client: RedditClient,
+  client: RedditApiClient,
   publishRawItems: (items: RawItem[]) => Promise<number>,
   backfillDays: number,
   log: typeof logger
@@ -98,7 +119,7 @@ async function crawlAndPublishSubreddit(
 async function main(): Promise<void> {
   const env = getIngesterEnv();
   const log = logger.child({ service: "reddit-ingester" });
-  const redditClient = new RedditClient(env);
+  const redditClient = createIngestionClient(env);
   const publisher = createRawItemPublisher(env.GCP_PROJECT_ID, env.PUBSUB_RAW_POSTS_TOPIC);
 
   let shouldStop = false;
@@ -115,6 +136,7 @@ async function main(): Promise<void> {
       region: env.GCP_REGION,
       rawPostsTopic: env.PUBSUB_RAW_POSTS_TOPIC,
       backfillDays: env.INGESTER_BACKFILL_DAYS,
+      source: env.INGESTER_SOURCE,
       pollIntervalMs: POLL_INTERVAL_MS
     },
     "Reddit ingester started"

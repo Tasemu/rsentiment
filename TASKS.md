@@ -70,15 +70,15 @@ Tracking document for implementation progress against `ARCHITECTURE.md`.
 
 ## In Progress
 
-- [~] Validate Reddit ingester MVP end-to-end locally with one subreddit and real credentials
+- [~] Validate Reddit ingester MVP end-to-end locally (mock source first, then Reddit source when credentials are approved)
 
 ## Next Session Start Here
 
-1. Run `pnpm dev:ingester` with valid Reddit and GCP credentials
-2. Verify one enabled subreddit publishes both post/comment messages
+1. Run `INGESTER_SOURCE=mock pnpm dev:ingester` with local Pub/Sub emulator
+2. Verify one enabled subreddit publishes both post/comment messages in mock mode
 3. Confirm `subreddits.last_crawled_at` advances only after successful publish
 4. Add targeted tests for normalization and crawl lower-bound behavior
-5. Capture any fixes from local smoke run
+5. Switch to `INGESTER_SOURCE=reddit` once Reddit credentials are approved and re-run smoke test
 
 ## Next Up (Priority Order)
 

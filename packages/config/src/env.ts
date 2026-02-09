@@ -21,12 +21,41 @@ export const ingesterEnvSchema = baseEnvSchema
   .merge(dbEnvSchema)
   .extend({
     PUBSUB_RAW_POSTS_TOPIC: z.string().min(1).default("raw-posts"),
-    REDDIT_CLIENT_ID: z.string().min(1),
-    REDDIT_CLIENT_SECRET: z.string().min(1),
-    REDDIT_USER_AGENT: z.string().min(1),
+    INGESTER_SOURCE: z.enum(["reddit", "mock"]).default("reddit"),
+    REDDIT_CLIENT_ID: z.string().min(1).optional(),
+    REDDIT_CLIENT_SECRET: z.string().min(1).optional(),
+    REDDIT_USER_AGENT: z.string().min(1).optional(),
     INGESTER_BACKFILL_DAYS: z.coerce.number().int().positive().default(3)
   })
-  .passthrough();
+  .superRefine((env, context) => {
+    if (env.INGESTER_SOURCE === "mock") {
+      return;
+    }
+
+    if (!env.REDDIT_CLIENT_ID) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["REDDIT_CLIENT_ID"],
+        message: "REDDIT_CLIENT_ID is required when INGESTER_SOURCE=reddit"
+      });
+    }
+
+    if (!env.REDDIT_CLIENT_SECRET) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["REDDIT_CLIENT_SECRET"],
+        message: "REDDIT_CLIENT_SECRET is required when INGESTER_SOURCE=reddit"
+      });
+    }
+
+    if (!env.REDDIT_USER_AGENT) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["REDDIT_USER_AGENT"],
+        message: "REDDIT_USER_AGENT is required when INGESTER_SOURCE=reddit"
+      });
+    }
+  });
 
 export const processorEnvSchema = baseEnvSchema
   .merge(dbEnvSchema)

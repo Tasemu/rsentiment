@@ -56,6 +56,12 @@ pnpm db:seed
 pnpm dev:ingester
 ```
 
+Run ingester in local mock-source mode (no Reddit credentials required):
+
+```bash
+INGESTER_SOURCE=mock pnpm dev:ingester
+```
+
 ## Database (Drizzle)
 
 - Generate migration SQL from schema: `pnpm --filter @rsentiment/db run db:generate`

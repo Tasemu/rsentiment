@@ -109,6 +109,7 @@ Implemented in `apps/reddit-ingester`:
    - Initial 3-day backfill when `last_crawled_at` is null
    - Forward-only incremental polling with overlap window to reduce boundary misses
    - Per-subreddit failure isolation and structured logging
+   - Supports `INGESTER_SOURCE=mock` for local development without Reddit credentials
 
 Remaining Milestone 3 validation:
 

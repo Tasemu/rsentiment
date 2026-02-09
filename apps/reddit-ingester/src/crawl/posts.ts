@@ -1,4 +1,4 @@
-import type { RedditClient, RedditPost } from "../reddit-client.js";
+import type { RedditApiClient, RedditPost } from "../reddit-client.js";
 
 export type CrawlItemsResult<TItem> = {
   items: TItem[];
@@ -11,7 +11,7 @@ export type CrawlItemsResult<TItem> = {
 const DEFAULT_MAX_PAGES = 25;
 
 export async function crawlPostsSince(
-  client: RedditClient,
+  client: RedditApiClient,
   subreddit: string,
   lowerBound: Date,
   maxPages = DEFAULT_MAX_PAGES

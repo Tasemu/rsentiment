@@ -1,7 +1,6 @@
 import Bottleneck from "bottleneck";
 import { fetch } from "undici";
 import { z } from "zod";
-import type { IngesterEnv } from "@rsentiment/config";
 import { logger } from "@rsentiment/observability";
 
 const oauthResponseSchema = z
@@ -71,6 +70,12 @@ type RedditRequestConfig = {
   userAgent: string;
 };
 
+export type RedditCredentials = {
+  clientId: string;
+  clientSecret: string;
+  userAgent: string;
+};
+
 export type RedditPost = {
   redditId: string;
   subreddit: string;
@@ -98,6 +103,11 @@ export type RedditComment = {
 export type RedditPage<T> = {
   items: T[];
   nextAfter: string | null;
+};
+
+export type RedditApiClient = {
+  fetchNewPostsPage(subreddit: string, after: string | null): Promise<RedditPage<RedditPost>>;
+  fetchNewCommentsPage(subreddit: string, after: string | null): Promise<RedditPage<RedditComment>>;
 };
 
 type RateLimitState = {
@@ -128,7 +138,7 @@ function parseRetryAfterMs(retryAfterHeader: string | null): number {
   return Math.ceil(parsed * 1000);
 }
 
-export class RedditClient {
+export class RedditClient implements RedditApiClient {
   private readonly log = logger.child({ service: "reddit-ingester", component: "reddit-client" });
 
   private readonly limiter = new Bottleneck({
@@ -144,11 +154,11 @@ export class RedditClient {
 
   private rateLimitState: RateLimitState | null = null;
 
-  public constructor(env: Pick<IngesterEnv, "REDDIT_CLIENT_ID" | "REDDIT_CLIENT_SECRET" | "REDDIT_USER_AGENT">) {
+  public constructor(credentials: RedditCredentials) {
     this.requestConfig = {
-      clientId: env.REDDIT_CLIENT_ID,
-      clientSecret: env.REDDIT_CLIENT_SECRET,
-      userAgent: env.REDDIT_USER_AGENT
+      clientId: credentials.clientId,
+      clientSecret: credentials.clientSecret,
+      userAgent: credentials.userAgent
     };
   }
 

@@ -1,10 +1,10 @@
-import type { RedditClient, RedditComment } from "../reddit-client.js";
+import type { RedditApiClient, RedditComment } from "../reddit-client.js";
 import type { CrawlItemsResult } from "./posts.js";
 
 const DEFAULT_MAX_PAGES = 25;
 
 export async function crawlCommentsSince(
-  client: RedditClient,
+  client: RedditApiClient,
   subreddit: string,
   lowerBound: Date,
   maxPages = DEFAULT_MAX_PAGES
